@@ -71,7 +71,7 @@ class ApprovalService:
         s = self.rt.settings
         if not s.catalog_app_id:
             raise RuntimeError("TEAMS_CATALOG_APP_ID is not set")
-        request_id = uuid.uuid4().hex[:8]
+        request_id = str(uuid.uuid7())
 
         async with httpx.AsyncClient(timeout=30) as client:
             graph = GraphClient(client, await self.rt.app_token(GRAPH))
@@ -135,7 +135,7 @@ class ApprovalService:
             tuple[str, dict]: The new request id and the Adaptive Card payload to send.
         """
         a = context.activity
-        request_id = uuid.uuid4().hex[:8]
+        request_id = str(uuid.uuid7())
         self.store.add(
             PendingRequest(
                 request_id=request_id,

@@ -20,7 +20,7 @@ The bot never sends anything unprompted.
 
 | guard | question | mechanism | config |
 |---|---|---|---|
-| 0 | Did this come from Microsoft? | Bot Framework JWT validated by the SDK (signature via Microsoft's JWKS, audience = the bot's app id) | always on |
+| 0 | Did this come from Microsoft? | Bot Framework JWT validated by the SDK: signature via Microsoft's JWKS, audience = the bot's app id, issuer allow-listed (`…VALIDATE_ISSUER=true`), expiry | always on |
 | 1 | Is it a card we sent, answered once, by the addressee? | request id known and undecided · same conversation · clicker's Entra object id = addressee · token origin = activity origin | always on (`APPROVAL_TTL_HOURS`) |
 | 2 | Is this person allowed to approve? | transitive membership of an Entra group (Graph, app-only) | `APPROVERS_GROUP_ID` + `GroupMember.Read.All` |
 | 3 | Is this person who Teams says they are? | Teams SSO: an Entra-issued token for the bot's own API, validated by the bot; its `oid` must match the clicker | one-time setup below + `AGENTAPPLICATION__USERAUTHORIZATION__HANDLERS__SSO__*` |
@@ -73,9 +73,20 @@ PFX path), `TEAMS_CATALOG_APP_ID`, `APPROVERS_GROUP_ID`, `APPROVAL_WEBHOOK_URL`,
 
 ## Run
 
+Every session, two terminals (the one-time tunnel and endpoint setup is below):
+
 ```bash
-make run                 # bot on http://localhost:3978
+devtunnel host <tunnel-name>   # terminal A — public URL for Bot Framework (same URL every time)
+make docker-run                # terminal B — the bot in its container on :3978 (or `make run` for the bare process)
+```
+
+Other flavours:
+
+```bash
+make run                 # bot as a plain process on http://localhost:3978
 make dev                 # dev flavour on :3979 — anonymous inbound, SSO/group off, /approval chat command, /docs
+make docker-logs         # follow the container's log
+make docker-stop
 ```
 
 ### Reaching the bot from Teams (dev tunnel)

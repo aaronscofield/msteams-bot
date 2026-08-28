@@ -26,7 +26,13 @@ _ACTIVITY_EXAMPLE = {
     "from": {"id": "29:…", "name": "Jane Doe", "aadObjectId": "<entra object id>"},
     "conversation": {"id": "a:1vXk3B…"},
     "serviceUrl": "https://smba.trafficmanager.net/amer/<tenant>/",
-    "value": {"action": {"type": "Action.Execute", "verb": "approve", "data": {"requestId": "ebfcfbc7"}}},
+    "value": {
+        "action": {
+            "type": "Action.Execute",
+            "verb": "approve",
+            "data": {"requestId": "019913a4-2b7d-7c40-9f1d-3e6a7b8c9d01"},
+        }
+    },
 }
 
 

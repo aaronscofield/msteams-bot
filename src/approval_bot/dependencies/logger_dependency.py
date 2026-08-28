@@ -5,7 +5,7 @@ the caller's `X-Request-ID` if acceptable, else a generated one — keeps it in 
 request's lifetime, and echoes it on the response. `CorrelationIdFilter` stamps it on *every* log
 record emitted meanwhile, including the SDK's own loggers:
 
-    INFO approval_bot.service [req=7c1f0a2b9e3d]: [approvals] sent request ebfcfbc7 …
+    INFO approval_bot.service [req=6f1c2e3a-…]: [approvals] sent request 2b7d9c40-… …
 
 `get_logger` hands a route a logger bound to that id; `configure_logging` installs format + filter once.
 """
@@ -50,9 +50,9 @@ def new_request_id() -> str:
     """Generate a correlation id for a request that arrived without one.
 
     Returns:
-        str: 12 hex characters — short enough to read in a log, unique enough for correlation.
+        str: A canonical UUIDv7 string — time-ordered, so ids sort chronologically in logs and stores.
     """
-    return uuid.uuid4().hex[:12]
+    return str(uuid.uuid7())
 
 
 def is_acceptable_request_id(value: str) -> bool:

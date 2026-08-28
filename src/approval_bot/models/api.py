@@ -44,7 +44,10 @@ class ApprovalCreated(CamelModel):
         trace_id: Correlation id of this call (also the ``X-Request-ID`` response header).
     """
 
-    request_id: str = Field(description="Short id binding this card to the eventual decision.", examples=["ebfcfbc7"])
+    request_id: str = Field(
+        description="Short id binding this card to the eventual decision.",
+        examples=["019913a4-2b7d-7c40-9f1d-3e6a7b8c9d01"],
+    )
     user: str = Field(examples=["someone@company.com"])
     chat_id: str = Field(
         description="Graph id of the 1:1 chat between the bot and the user.",
@@ -65,7 +68,7 @@ class ApprovalCreated(CamelModel):
         default=None,
         description="Correlation id of this call (also returned as the X-Request-ID header). "
         "The eventual decision's log line and webhook payload carry it as `traceId`.",
-        examples=["7c1f0a2b9e3d"],
+        examples=["019913a4-6f1c-7e3a-a1c3-5d7e9f0b2a4c"],
     )
 
 
@@ -102,7 +105,7 @@ class CardUpdateRequest(CamelModel):
     activity_id: str = Field(min_length=1, examples=["1787936059053"])
     notice: CardNotice | None = None
     card: dict | None = Field(default=None, description="Adaptive Card JSON; overrides `notice` if both are given.")
-    request_id: str | None = Field(default=None, examples=["ebfcfbc7"])
+    request_id: str | None = Field(default=None, examples=["019913a4-2b7d-7c40-9f1d-3e6a7b8c9d01"])
     service_url: str | None = Field(
         default=None,
         description="Bot Connector base URL the card was posted through. Defaults to the pending request's "
