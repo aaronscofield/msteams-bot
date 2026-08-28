@@ -19,7 +19,9 @@ RUN --mount=type=cache,target=/root/.cache/uv uv sync --locked --no-dev --no-ins
 # the package itself (small; changes often)
 COPY src ./src
 RUN --mount=type=cache,target=/root/.cache/uv uv sync --locked --no-dev
-ENV PATH="/app/.venv/bin:$PATH"
+# The process runs as `bot`; it must own /app so Tilt can live-sync src/ and re-run `uv sync` in place.
+RUN chown -R bot:bot /app
+ENV PATH="/app/.venv/bin:$PATH" UV_CACHE_DIR=/tmp/uv-cache
 
 USER bot
 EXPOSE 3978

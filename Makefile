@@ -2,7 +2,7 @@
 IMAGE    ?= teams-bot
 VERSION  ?= $(shell sed -n 's/^version = "\(.*\)"/\1/p' pyproject.toml)
 
-.PHONY: run dev smoke update-card approve package playground lint fmt check docker-build docker-run docker-stop docker-logs
+.PHONY: run dev smoke update-card approve tilt-up tilt-down package playground lint fmt check docker-build docker-run docker-stop docker-logs
 
 run:            ## run the bot locally on :3978
 	uv run python -m approval_bot
@@ -34,6 +34,12 @@ fmt:            ## ruff format + autofix
 
 check:          ## CI-style: lint + format check
 	uv run ruff check . && uv run ruff format --check .
+
+tilt-up:        ## dev loop: rebuild/restart containers on change (UI at http://localhost:10350)
+	tilt up
+
+tilt-down:      ## stop the Tilt-managed stack
+	tilt down
 
 docker-build:   ## build the container image
 	docker build -t $(IMAGE):$(VERSION) -t $(IMAGE):latest .

@@ -1,0 +1,26 @@
+# Local development stack, driven by Tilt (see Tiltfile). `docker compose up` works too, but without live reload.
+services:
+  bot:
+    image: teams-bot
+    build: .
+    ports:
+      - "3978:3978"
+    env_file: .env
+    environment:
+      CERT_PFX_BASE64: ${CERT_PFX_BASE64:-}   # Tilt fills this from certs/bot.pfx; the file itself stays on the host
+
+  # Same image, dev flavour on :3979: anonymous inbound, SSO/group off, /approval chat command, /docs —
+  # what `make smoke` and the Agents Playground talk to.
+  dev:
+    image: teams-bot
+    ports:
+      - "3979:3978"
+    env_file: .env
+    environment:
+      CERT_PFX_BASE64: ${CERT_PFX_BASE64:-}
+      DEV_COMMANDS: "true"
+      DISABLE_SSO: "true"
+      ENABLE_DOCS: "true"
+      APPROVERS_GROUP_ID: ""
+      CONNECTIONS__SERVICE_CONNECTION__SETTINGS__ANONYMOUS_ALLOWED: "true"
+    profiles: ["dev"]

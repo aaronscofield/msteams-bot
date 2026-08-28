@@ -116,6 +116,22 @@ The change is instant and global; a named tunnel keeps its URL, so this is a one
 `az resource update` is how you move the endpoint to a real deployment later. Note that the tunnel also exposes
 `…/approvals` and `…/cards` publicly — set `APPROVALS_API_KEY` if that matters while it is up.
 
+### Dev loop with Tilt
+
+`make tilt-up` (or `tilt up`) runs the stack from `docker-compose.yml` and keeps it in sync with your edits:
+
+| you change | Tilt does |
+|---|---|
+| anything under `src/` | syncs the files into the running container and restarts the process (about a second; no image rebuild) |
+| `pyproject.toml` / `uv.lock` | re-runs `uv sync` inside the container, then restarts |
+| `Dockerfile` | full image rebuild |
+| `.env` | recreates the containers with the new environment |
+
+Resources: **bot** (:3978, what Teams talks to), **dev** (:3979 — docs, `/approval` command, smoke target),
+**tunnel** (`devtunnel host $TUNNEL_NAME`, started after `bot` is healthy — set `TUNNEL_NAME` in `.env`), and
+**smoke** (manual trigger in the UI; runs `scripts/smoke_local.py` against `dev`). UI: http://localhost:10350.
+`make tilt-down` stops everything. Plain `docker compose up` also works, without the live reload.
+
 ### Container
 
 ```bash

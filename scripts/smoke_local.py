@@ -53,12 +53,15 @@ class _FakeConnector(BaseHTTPRequestHandler):
         pass
 
 
+CONNECTOR_HOST = "localhost"  # what the *bot* must dial to reach the fake connector; set by --connector-host
+
+
 def _activity(kind: str, conv: str, **extra) -> dict:
     return {
         "type": kind,
         "id": "act-1",
         "channelId": "msteams",
-        "serviceUrl": f"http://localhost:{FAKE_PORT}/",
+        "serviceUrl": f"http://{CONNECTOR_HOST}:{FAKE_PORT}/",
         "from": {"id": "29:user", "name": "Smoke Tester", "aadObjectId": "11111111-1111-1111-1111-111111111111"},
         "recipient": {"id": "28:bot", "name": "bot"},
         "conversation": {"id": conv, "conversationType": "personal"},
@@ -71,8 +74,10 @@ def _click(conv: str, verb: str, request_id: str) -> dict:
     return _activity("invoke", conv, name="adaptiveCard/action", value={"action": action})
 
 
-async def main(bot: str, prefix: str) -> int:
-    server = ThreadingHTTPServer(("localhost", FAKE_PORT), _FakeConnector)
+async def main(bot: str, prefix: str, connector_host: str) -> int:
+    global CONNECTOR_HOST
+    CONNECTOR_HOST = connector_host
+    server = ThreadingHTTPServer(("0.0.0.0", FAKE_PORT), _FakeConnector)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     failures = 0
 
@@ -143,5 +148,11 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--bot", default="http://localhost:3979")
     p.add_argument("--prefix", default=Settings().route_prefix, help="route prefix of the bot under test")
+    p.add_argument(
+        "--connector-host",
+        default="localhost",
+        help="hostname the bot dials to reach this script's fake connector "
+        "(host.docker.internal when the bot runs in Docker)",
+    )
     a = p.parse_args()
-    sys.exit(asyncio.run(main(a.bot, a.prefix)))
+    sys.exit(asyncio.run(main(a.bot, a.prefix, a.connector_host)))
