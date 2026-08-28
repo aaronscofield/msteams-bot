@@ -1,0 +1,22 @@
+subscription_id       = "<subscription id>"
+tenant_id             = "<entra tenant id>"
+resource_group_name   = "rg-teams-approval-bot"
+create_resource_group = true
+location              = "eastus2"
+
+bot_name         = "company-approval-bot" # globally unique
+bot_display_name = "Company Approval Bot"
+sku              = "F0"
+
+# Where Bot Framework posts activities: your host + Settings.route_prefix + /messages
+messaging_endpoint = "https://<host>/company/bot/v1/messages"
+
+# Public certificate whose private key is certs/bot.pfx on the bot host
+certificate_pem_path = "../../certs/bot-cert.pem"
+certificate_end_date = "2027-08-28T00:00:00Z"
+
+enable_group_check  = true
+enable_teams_sso    = true
+sso_connection_name = "teams-sso"
+
+tags = { app = "approval-bot" }

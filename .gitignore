@@ -8,3 +8,7 @@ dist/
 devTools/
 docs/
 teams_app/
+infra/terraform/.terraform/
+infra/terraform/*.tfstate*
+infra/terraform/terraform.tfvars
+infra/terraform/*.tfplan

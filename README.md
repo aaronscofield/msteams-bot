@@ -46,10 +46,13 @@ src/approval_bot/
 scripts/           send_approval.py · update_card.py · smoke_local.py
 teams_app/         Teams app manifest + icons (not committed)  →  make package  →  dist/teams-app.zip
 Dockerfile         python:3.14-slim + uv, non-root, health probe
+infra/terraform/   Terraform for the Azure side: Entra app registration (cert, Graph consent, SSO API), Azure Bot, Teams channel, OAuth connection
 Makefile           run · dev · smoke · approve · update-card · package · playground · lint · fmt · check · docker-*
 ```
 
 ## Prerequisites
+
+Everything Azure-side below can be created with `infra/terraform` (see its README); the list is what it produces.
 
 - An **Azure Bot** resource with the Teams channel enabled, bound to a **SingleTenant Entra app registration**.
 - A **certificate** registered on that app registration (the bot authenticates with it; no client secret needed for
