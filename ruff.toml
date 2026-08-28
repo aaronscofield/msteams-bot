@@ -1,0 +1,9 @@
+# Ruff — lint + format (https://docs.astral.sh/ruff/settings/)
+line-length = 120
+target-version = "py314"
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[format]
+quote-style = "double"

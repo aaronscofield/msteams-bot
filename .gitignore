@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.env
+certs/
+dist/
+.DS_Store
+.ruff_cache/
+devTools/
+docs/
+teams_app/
