@@ -5,9 +5,9 @@
   "id": "{azure_bot_id}",
   "developer": {
     "name": "Company",
-    "websiteUrl": "https://example.com",
-    "privacyUrl": "https://example.com/privacy",
-    "termsOfUseUrl": "https://example.com/terms"
+    "websiteUrl": "https://example1.com",
+    "privacyUrl": "https://example1.com/privacy",
+    "termsOfUseUrl": "https://example1.com/terms"
   },
   "name": {
     "short": "Company Approval Bot",
