@@ -7,7 +7,6 @@ dist/
 .ruff_cache/
 devTools/
 docs/
-teams_app/
 infra/terraform/.terraform/
 infra/terraform/*.tfstate*
 infra/terraform/terraform.tfvars

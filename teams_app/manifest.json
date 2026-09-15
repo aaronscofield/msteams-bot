@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.19",
+  "version": "1.3.0",
+  "id": "{azure_bot_id}",
+  "developer": {
+    "name": "Company",
+    "websiteUrl": "https://example.com",
+    "privacyUrl": "https://example.com/privacy",
+    "termsOfUseUrl": "https://example.com/terms"
+  },
+  "name": {
+    "short": "Company Approval Bot",
+    "full": "Company Teams Approval Bot"
+  },
+  "description": {
+    "short": "Approval requests",
+    "full": "Delivers approval requests as Adaptive Cards and records Approve/Reject decisions."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#2E6FD9",
+  "bots": [
+    {
+      "botId": "{azure_bot_id}",
+      "scopes": [
+        "personal",
+        "team",
+        "groupChat"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [],
+  "webApplicationInfo": {
+    "id": "{azure_bot_id}",
+    "resource": "api://botid-{azure bot id}"
+  }
+}
